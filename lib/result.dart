@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:teoacheckers/seeAlso.dart';
 
-class Results extends StatelessWidget {
-  const Results({Key? key, required this.personalId, required this.value})
+class Results extends StatefulWidget {
+  const Results({Key? key, required this.personalId, required this.value, required this.maxValue})
       : super(key: key);
 
   final String personalId;
   final List<int> value;
+  final List<int> maxValue;
 
   @override
-  Widget build(BuildContext context) {
-    var mirr = MediaQuery.of(context).size.width / 240;
+  State<Results> createState() => _ResultsState();
+}
 
+class _ResultsState extends State<Results> {
+  @override
+  Widget build(BuildContext context) {
     const TextStyle titleTextStyle = TextStyle(
         color: Colors.amber,
         letterSpacing: 2.0,
@@ -20,99 +25,33 @@ class Results extends StatelessWidget {
       color: Colors.black,
       fontSize: 16,
     );
-    if (mirr < 320/240) {
-      return MaterialApp(
-          title: "Questions",
-          theme: ThemeData(primarySwatch: Colors.purple),
-          home: Scaffold(
-              appBar: AppBar(
-                  title: const Text("MinisTalk"),
-                  centerTitle: true,
-                  backgroundColor: Colors.purpleAccent,
-                  elevation: 1.0),
-              body: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text("테스트 완료", style: titleTextStyle),
-                      const SizedBox(height: 30.0),
-                      Text(
-                          "자유 지향:" +
-                              ((220 + value[0]) * 50 / 220)
-                                  .toStringAsFixed(1),
-                          style: barTextStyle),
-                      Row(
-                        children: [
-                          Container(
-                            height: 40,
-                            width: (220 + value[0]) * 120 / 220 * mirr - 30,
-                            decoration: const BoxDecoration(color: Colors.lime),
-                          ),
-                          Container(
-                            height: 40,
-                            width: (220 - value[0]) * 120 / 220 * mirr - 30,
-                            decoration:
-                                const BoxDecoration(color: Colors.redAccent),
-                          )
-                        ],
-                      ),
-                      Text(
-                          ((220 - value[0]) * 50 / 220)
-                              .toStringAsFixed(1) +
-                              ":전통 지향",
-                          style: barTextStyle,
-                          textAlign: TextAlign.end),
-                      const SizedBox(height: 30.0),
-                      Text(
-                          "신비 지향:" +
-                              ((220 + value[1]) * 50 / 220)
-                                  .toStringAsFixed(1),
-                          style: barTextStyle),
-                      Row(
-                        children: [
-                          Container(
-                            height: 40,
-                            width: (220 - value[1]) * 120 / 220 * mirr - 30,
-                            decoration:
-                                const BoxDecoration(color: Colors.green),
-                          ),
-                          Container(
-                            height: 40,
-                            width: (220 + value[1]) * 120 / 220 * mirr - 30,
-                            decoration:
-                                const BoxDecoration(color: Colors.orange),
-                          )
-                        ],
-                      ),
-                      Text(
-                          ((220 - value[1]) * 50 / 220)
-                              .toStringAsFixed(1) +
-                              ":지식 지향",
-                          style: barTextStyle,
-                          textAlign: TextAlign.end),
-                      //Text(value[0].toString() + "::" + value[1].toString() + "::" +  value[2].toString())
-                      const Divider(
-                          height: 60.0,
-                          color: Colors.grey,
-                          thickness: 0.5,
-                          endIndent: 30),
-                      Text("personal ID: " + personalId),
-                    ],
-                  ),
-                ),
-              )));
-    }
     return MaterialApp(
         title: "Questions",
         theme: ThemeData(primarySwatch: Colors.purple),
         home: Scaffold(
             appBar: AppBar(
-                title: const Text("MinisTalk"),
-                centerTitle: true,
-                backgroundColor: Colors.purpleAccent,
-                elevation: 1.0),
+              title: const Text("MinisTalk"),
+              centerTitle: true,
+              backgroundColor: Colors.purpleAccent,
+              elevation: 1.0,
+              leading: IconButton(
+                icon: const Icon(Icons.menu_open),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => SeeAlso(pid: widget.personalId)));
+                },
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.map_outlined),
+                  onPressed: () {
+
+                  },
+                ),
+              ],
+            ),
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
@@ -121,67 +60,129 @@ class Results extends StatelessWidget {
                   children: [
                     const Text("테스트 완료", style: titleTextStyle),
                     const SizedBox(height: 30.0),
-                    Row(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: (220 + value[0]) * 120 / 220 * mirr - 30,
-                          decoration: const BoxDecoration(color: Colors.lime),
-                          child: Text(
-                              "자유 지향:" +
-                                  ((220 + value[0]) * 50 / 220)
-                                      .toStringAsFixed(1),
-                              style: barTextStyle),
-                        ),
-                        Container(
-                          height: 40,
-                          width: (220 - value[0]) * 120 / 220 * mirr - 30,
-                          decoration:
-                              const BoxDecoration(color: Colors.redAccent),
-                          child: Text(
-                              ((220 - value[0]) * 50 / 220).toStringAsFixed(1) +
-                                  ":전통 지향",
-                              style: barTextStyle,
-                              textAlign: TextAlign.end),
-                        )
-                      ],
-                    ),
+                    ValueBar(
+                        totalKey: widget.maxValue[0],
+                        requireKey: widget.value[0],
+                        colorA: Colors.green,
+                        colorB: Colors.purple,
+                        aaa: 15,
+                        textA: "자유지향",
+                        textB: "전통지향"),
                     const SizedBox(height: 30.0),
-                    Row(
-                      children: [
-                        Container(
-                          height: 40,
-                          width: (220 - value[1]) * 120 / 220 * mirr - 30,
-                          decoration: const BoxDecoration(color: Colors.green),
-                          child: Text(
-                              "신비 지향:" +
-                                  ((220 + value[1]) * 50 / 220)
-                                      .toStringAsFixed(1),
-                              style: barTextStyle),
-                        ),
-                        Container(
-                          height: 40,
-                          width: (220 + value[1]) * 120 / 220 * mirr - 30,
-                          decoration: const BoxDecoration(color: Colors.orange),
-                          child: Text(
-                              ((220 - value[1]) * 50 / 220).toStringAsFixed(1) +
-                                  ":지식 지향",
-                              style: barTextStyle,
-                              textAlign: TextAlign.end),
-                        )
-                      ],
-                    ),
+                    ValueBar(
+                        totalKey: widget.maxValue[1],
+                        requireKey: widget.value[1],
+                        colorA: Colors.yellow,
+                        colorB: Colors.lightGreen,
+                        aaa: 15,
+                        textA: "신비-경건",
+                        textB: "직제-지식"),
+                    const SizedBox(height: 30.0),
+                    ValueBar(
+                        totalKey: widget.maxValue[2],
+                        requireKey: widget.value[2],
+                        colorA: Colors.red,
+                        colorB: Colors.indigo,
+                        aaa: 15,
+                        textA: "배타주의",
+                        textB: "다원주의"),
+
                     //Text(value[0].toString() + "::" + value[1].toString() + "::" +  value[2].toString())
                     const Divider(
                         height: 60.0,
                         color: Colors.grey,
                         thickness: 0.5,
                         endIndent: 30),
-                    Text("personal ID: " + personalId),
+                    Text("personal ID: " + widget.personalId),
                   ],
                 ),
               ),
             )));
+  }
+}
+
+class ValueBar extends StatelessWidget {
+  const ValueBar(
+      {Key? key,
+      required this.totalKey,
+      required this.requireKey,
+      required this.colorA,
+      required this.colorB,
+      required this.aaa,
+      required this.textA,
+      required this.textB})
+      : super(key: key);
+  final int totalKey; //전체 점수
+  final int requireKey; //왼쪽 성향이 차지한 점수
+  final Color colorA; //왼쪽 성향 색깔
+  final Color colorB; //오른쪽 성향 색깔
+  final int aaa;
+  final String textA;
+  final String textB;
+
+  @override
+  Widget build(BuildContext context) {
+    const TextStyle barTextStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 16,
+    );
+    var barWidth = (((totalKey / 2) + requireKey) / totalKey);
+    if (MediaQuery.of(context).size.height / MediaQuery.of(context).size.width >
+        4 / 3) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+              textA +
+                  ((((totalKey / 2) + requireKey) / totalKey) * 100)
+                      .toStringAsFixed(2),
+              style: barTextStyle),
+          Row(
+            children: [
+              Container(
+                height: 40,
+                width: barWidth * MediaQuery.of(context).size.width - aaa * 2,
+                decoration: BoxDecoration(color: colorA),
+              ),
+              Container(
+                height: 40,
+                width: (1 - barWidth) * MediaQuery.of(context).size.width -
+                    aaa * 2,
+                decoration: BoxDecoration(color: colorB),
+              ),
+            ],
+          ),
+          Text(
+              textB +
+                  ((((totalKey / 2) - requireKey) / totalKey) * 100)
+                      .toStringAsFixed(2),
+              style: barTextStyle),
+        ],
+      );
+    } else {
+      return Row(children: [
+        Container(
+          height: 40,
+          width: barWidth * MediaQuery.of(context).size.width - aaa * 2,
+          decoration: BoxDecoration(color: colorA),
+          child: Text(
+              textA +
+                  ((((totalKey / 2) + requireKey) / totalKey) * 100)
+                      .toStringAsFixed(1),
+              style: barTextStyle),
+        ),
+        Container(
+          height: 40,
+          width: (1 - barWidth) * MediaQuery.of(context).size.width - aaa * 2,
+          decoration: BoxDecoration(color: colorB),
+          child: Text(
+              textB +
+                  ((((totalKey / 2) - requireKey) / totalKey) * 100)
+                      .toStringAsFixed(2),
+              style: barTextStyle),
+        ),
+      ]);
+    }
   }
 }
 /*

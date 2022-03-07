@@ -62,6 +62,12 @@ flutter:
     - aaa/Liberian.jpg
     - aaa/Presbyterian.jpg
     - aaa/questions.json
+    - aaa/antiPietism.png
+    - aaa/antiPluralism.png
+    - aaa/antiProgessivism.png
+    - aaa/Pietism.png
+    - aaa/Pluralism.png
+    - aaa/Progessivism.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

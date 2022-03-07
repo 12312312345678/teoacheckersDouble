@@ -22,8 +22,9 @@ class QuestionState extends State<Questions> {
   String thisQuestion = "Loading...";
   int page = 0;
   String personalIdentify = "";
-  List<int> value = [0, 0, 0, 0];
-  List<int> offerValue = [0, 0, 0, 0];
+  List<int> value = [0, 0, 0];
+  List<int> offerValue = [0, 0, 0];
+  List<int> maxValue = [0, 0, 0];
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -107,8 +108,7 @@ class QuestionState extends State<Questions> {
                         ButtonTheme(
                           child: ElevatedButton(
                             onPressed: () {
-                             MaterialPageRoute(
-                                 builder: (BuildContext context) => Results(personalId: personalIdentify, value: value));
+                              lunchQuestion(0);
                             },
                             child: const Text("몰?루"),
                             style: ElevatedButton.styleFrom(
@@ -136,16 +136,16 @@ class QuestionState extends State<Questions> {
       page = questions.length;
       int i = Random().nextInt(questions.length);
       String qid = questions[i]['QID'];
-      int frv, fav, nev;
-      frv = questions[i]['FreedomValue'];
-      fav = questions[i]['FaithfulValue'];
-      nev = questions[i]['NeoOrthodoxianValue'];
+      int? vb0, vb1, vb2;
+      vb0 = questions[i]['FreedomValue'];
+      vb1 = questions[i]['FaithfulValue'];
+      vb2 = questions[i]['PluralValue'];
       setState(() {
         thisQuestion = questions[i]['NAME'];
         personalIdentify = personalIdentify + qid;
-        offerValue[0] = frv;
-        offerValue[1] = fav;
-        offerValue[2] = nev;
+        offerValue[0] = vb0?? 0;
+        offerValue[1] = vb1?? 0;
+        offerValue[2] = vb2?? 0;
         questions.removeAt(i);
       });
     });
@@ -163,24 +163,25 @@ class QuestionState extends State<Questions> {
     value[0] = value[0] + offerValue[0] * cast;
     value[1] = value[1] + offerValue[1] * cast;
     value[2] = value[2] + offerValue[2] * cast;
+    maxValue[0] = maxValue[0] + offerValue[0].abs() * 2;
+    maxValue[1] = maxValue[1] + offerValue[1].abs() * 2;
+    maxValue[2] = maxValue[2] + offerValue[2].abs() * 2;
     if (page == 0) {
-
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (BuildContext context) => Results(personalId: personalIdentify, value: value)));
+              builder: (BuildContext context) => Results(personalId: personalIdentify, value: value, maxValue: maxValue,)));
       return;
     }
     int i = Random().nextInt(questions.length);
-    int frv, fav;
-    int nev = 0;
-    frv = questions[i]['FreedomValue'];
-    fav = questions[i]['FaithfulValue'];
+    int? vb0, vb1,vb2;
+    vb0 = questions[i]['FreedomValue'];
+    vb1 = questions[i]['FaithfulValue'];
+    vb2 = questions[i]['PluralValue'];
     String qid = questions[i]['QID'];
-    //nev = questions[i]['NeoOrthodoxianValue'];
-    offerValue[0] = frv;
-    offerValue[1] = fav;
-    offerValue[2] = nev;
+    offerValue[0] = vb0?? 0;
+    offerValue[1] = vb1?? 0;
+    offerValue[2] = vb2?? 0;
     setState(() {
       page = questions.length;
       thisQuestion = questions[i]['NAME'];

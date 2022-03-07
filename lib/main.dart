@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'Questions.dart';
+import 'decodePersonal.dart';
 
 void main() {
   runApp(const TeoaCheck());
@@ -39,16 +40,26 @@ class MyHomePage extends StatelessWidget {
             title: const Text("MinisTalk"),
             centerTitle: true,
             backgroundColor: Colors.purpleAccent,
-            elevation: 1.0),
+            elevation: 1.0,
+            leading: IconButton(
+              icon: const Icon(Icons.menu_open),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        const DecodePage()));
+              },
+            )),
         body: Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 40.0, 0.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text("신학적 요소 분석기", style: titleTextStyle),
                 const SizedBox(height: 10.0),
                 const Text(
-                    "이 설문조사는 개신교인의 여러 가치를 4 가지의 신학적 경향으로 측정해, 어떤 성향을 가지고 있는지 진단합니다. 이 설문조사를 통해 어떤 교단 어떤 교회에 소속될 것인지, 또는 어떤 가치에 대해 고려를 해 볼 것인지, 더 깊은 탐구의 기회를 가질 수 있습니다."),
+                    "이 설문조사는 개신교인의 여러 가치를 4 가지의 신학적 성향을 구별해 측정함으로써, 어떤 성향을 가지고 있는지 진단합니다. 이 설문조사는 자신이 가지고 있는 성향을 객관적으로 표현할 수 있는 지표를 제공합니다."),
                 const Divider(
                     height: 60.0,
                     color: Colors.grey,
@@ -68,6 +79,52 @@ class MyHomePage extends StatelessWidget {
                     //SizedBox(width: 15.0), // cf) padding
                   ],
                 ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: const [
+                    CircleAvatar(
+                        backgroundImage: AssetImage("aaa/Pietism.png"),
+                        radius: 15.0),
+                    Text("직제-지식 척도"),
+                    Text("신비-경건 척도"),
+                    CircleAvatar(
+                        backgroundImage: AssetImage("aaa/antiPietism.png"),
+                        radius: 15.0),
+                    //SizedBox(width: 15.0), // cf) padding
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: const [
+                    CircleAvatar(
+                        backgroundImage: AssetImage("aaa/antiPluralism.png"),
+                        radius: 15.0),
+                    Text("배타주의 척도"),
+                    Text("다원주의 척도"),
+                    CircleAvatar(
+                        backgroundImage: AssetImage("aaa/Pluralism.png"),
+                        radius: 15.0),
+                    //SizedBox(width: 15.0), // cf) padding
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: const [
+                    CircleAvatar(
+                        backgroundImage: AssetImage("aaa/antiProgessivism.png"),
+                        radius: 15.0),
+                    Text("비관주의 척도"),
+                    Text("낙관주의 척도"),
+                    CircleAvatar(
+                        backgroundImage: AssetImage("aaa/Progessivism.png"),
+                        radius: 15.0),
+                    //SizedBox(width: 15.0), // cf) padding
+                  ],
+                ),
+                const SizedBox(height: 10.0),
                 const SizedBox(height: 10.0),
                 ButtonTheme(
                   child: ElevatedButton(
